@@ -772,16 +772,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ejemplo: '123456789-abcdefgh.apps.googleusercontent.com'
     const GOOGLE_CLIENT_ID = '752364168606-t10sqmr6ob9l6s4qoh78524lq55uud59.apps.googleusercontent.com';
 
-    // Función para inicializar Google con reintento y fallback
-    let attempts = 0;
+    // Función para inicializar Google con reintento (sin botón falso)
     const initGoogle = () => {
-        // Detectar si estamos en archivo local (file://)
-        if (window.location.protocol === 'file:') {
-            console.warn("Google Login requiere un servidor HTTP/HTTPS. Ejecutando en modo fallback.");
-            renderFallbackButton("Google Login requiere servidor local (http)");
-            return;
-        }
-
         if (window.google && window.google.accounts) {
             try {
                 google.accounts.id.initialize({
@@ -795,32 +787,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Botón de Google inicializado correctamente");
             } catch (e) {
                 console.error("Error inicializando botón Google:", e);
-                renderFallbackButton("Error de configuración Google");
             }
         } else {
-            attempts++;
-            // Si no carga en 5 segundos (50 intentos), mostrar error
-            if (attempts > 50) {
-                console.error("Librería de Google no cargó.");
-                renderFallbackButton("No se pudo cargar Google");
-                return;
-            }
-            // Reintentar en 100ms
+            // Si no está listo, seguir esperando
             setTimeout(initGoogle, 100);
         }
     };
-
-    function renderFallbackButton(msg) {
-        const container = document.getElementById("google-btn-container");
-        if (container) {
-            container.innerHTML = `
-                <button class="btn-social google" onclick="alert('${msg}')" style="opacity: 0.7;">
-                     <svg class="social-icon" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)"><path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z" /><path fill="#34A853" d="M -14.754 63.239 C -11.514 63.239 -8.804 62.159 -6.824 60.329 L -10.684 57.329 C -11.764 58.049 -13.134 58.489 -14.754 58.489 C -17.884 58.489 -20.534 56.379 -21.484 53.529 L -25.464 53.529 L -25.464 56.619 C -23.494 60.539 -19.444 63.239 -14.754 63.239 Z" /><path fill="#FBBC05" d="M -21.484 53.529 C -21.734 52.809 -21.864 52.049 -21.864 51.239 C -21.864 50.439 -21.994 49.679 -21.484 48.969 L -21.484 45.879 L -25.464 45.879 C -26.284 47.509 -26.754 49.329 -26.754 51.239 C -26.754 53.149 -26.284 54.969 -25.464 56.619 L -21.484 53.529 Z" /><path fill="#EA4335" d="M -14.754 43.989 C -12.984 43.989 -11.404 44.599 -10.154 45.789 L -6.734 42.369 C -8.804 40.429 -11.514 39.239 -14.754 39.239 C -19.444 39.239 -23.494 41.939 -25.464 45.879 L -21.484 48.969 C -20.534 46.109 -17.884 43.989 -14.754 43.989 Z" /></g></svg>
-                     <span class="btn-text">Google (Requiere Servidor)</span>
-                </button>
-            `;
-        }
-    }
 
     // Iniciar el proceso de carga
     initGoogle();
