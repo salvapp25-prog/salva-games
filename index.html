@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ta Te Ti - Juego Clásico</title>
+    <meta name="description" content="Juega al clásico Ta Te Ti contra la máquina. Desafía tu mente y diviértete.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="background-effects">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Música de fondo -->
+    <audio id="bg-music" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="sound-control">
+        <button id="sound-btn" class="sound-btn" aria-label="Activar/Desactivar sonido">
+            <span class="sound-icon">🔈</span>
+        </button>
+    </div>
+
+    <div class="container">
+        <!-- Pantalla de Login -->
+        <div id="login-screen" class="screen active">
+            <div class="logo-container">
+                <h1 class="game-title">
+                    <span class="title-letter">T</span>
+                    <span class="title-letter">A</span>
+                    <span class="title-separator"></span>
+                    <span class="title-letter">T</span>
+                    <span class="title-letter">E</span>
+                    <span class="title-separator"></span>
+                    <span class="title-letter">T</span>
+                    <span class="title-letter">I</span>
+                </h1>
+                <p class="game-subtitle">Bienvenido</p>
+            </div>
+
+            <div class="settings-card">
+                <div class="login-options">
+                    <div class="input-group">
+                        <input type="email" class="name-input" placeholder="Correo electrónico" id="email-input">
+                        <button class="btn-primary full-width" id="btn-login-email">
+                            <span class="btn-text">Continuar con Email</span>
+                        </button>
+                    </div>
+
+                    <div class="divider">
+                        <span>o</span>
+                    </div>
+
+                    <!-- Contenedor para el Botón Oficial de Google -->
+                    <div id="google-btn-container" class="full-width" style="display: flex; justify-content: center;">
+                    </div>
+
+                    <button class="btn-ghost" id="btn-login-guest">
+                        Continuar como invitado
+                    </button>
+                </div>
+            </div>
+
+            <div class="branding">© Salva-Games</div>
+        </div>
+
+        <!-- Pantalla de Idioma -->
+        <div id="language-screen" class="screen">
+            <div class="logo-container">
+                <h1 class="game-title">
+                    <span class="title-letter">T</span>
+                    <span class="title-letter">A</span>
+                    <span class="title-separator"></span>
+                    <span class="title-letter">T</span>
+                    <span class="title-letter">E</span>
+                    <span class="title-separator"></span>
+                    <span class="title-letter">T</span>
+                    <span class="title-letter">I</span>
+                </h1>
+                <p class="game-subtitle" data-i18n="subtitle">El clásico juego de estrategia</p>
+            </div>
+
+            <div class="settings-card">
+                <div class="setting-group">
+                    <label class="setting-label" data-i18n="enter_name">Ingresa tu nombre</label>
+                    <input type="text" id="player-name-input" class="name-input" placeholder="Jugador 1"
+                        autocomplete="off" maxlength="12">
+                </div>
+
+                <div class="setting-group">
+                    <label class="setting-label" data-i18n="select_language">Selecciona Idioma</label>
+                    <div class="language-selector">
+                        <button class="language-btn active" data-lang="es">
+                            <span class="lang-flag">🇪🇸</span> Español
+                        </button>
+                        <button class="language-btn" data-lang="en">
+                            <span class="lang-flag">🇺🇸</span> English
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button id="go-to-start" class="btn-primary">
+                <span class="btn-text" data-i18n="start">Comenzar</span>
+                <span class="btn-icon">→</span>
+            </button>
+
+            <div class="branding">© Salva-Games</div>
+        </div>
+
+        <!-- Pantalla de Inicio -->
+        <div id="start-screen" class="screen">
+            <div class="logo-container">
+                <h1 class="game-title">
+                    <span class="title-letter">T</span>
+                    <span class="title-letter">A</span>
+                    <span class="title-separator"></span>
+                    <span class="title-letter">T</span>
+                    <span class="title-letter">E</span>
+                    <span class="title-separator"></span>
+                    <span class="title-letter">T</span>
+                    <span class="title-letter">I</span>
+                </h1>
+                <p class="game-subtitle" data-i18n="subtitle">El clásico juego de estrategia</p>
+            </div>
+
+            <div class="settings-card">
+                <div class="setting-group">
+                    <label class="setting-label" data-i18n="choose_symbol">Elige tu símbolo</label>
+                    <div class="symbol-selector">
+                        <button class="symbol-btn active" data-symbol="X" id="select-x">
+                            <span class="symbol-x">✕</span>
+                        </button>
+                        <button class="symbol-btn" data-symbol="O" id="select-o">
+                            <span class="symbol-o">⬤</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label class="setting-label" data-i18n="difficulty">Dificultad</label>
+                    <div class="difficulty-selector">
+                        <button class="difficulty-btn" data-difficulty="easy" data-i18n="easy">Fácil</button>
+                        <button class="difficulty-btn active" data-difficulty="medium"
+                            data-i18n="medium">Normal</button>
+                        <button class="difficulty-btn" data-difficulty="hard" data-i18n="hard">Difícil</button>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label class="setting-label" data-i18n="rounds_to_win">Partidas para ganar</label>
+                    <div class="rounds-selector">
+                        <button class="rounds-btn" data-rounds="1">1</button>
+                        <button class="rounds-btn active" data-rounds="3">3</button>
+                        <button class="rounds-btn" data-rounds="5">5</button>
+                        <button class="rounds-btn" data-rounds="10">10</button>
+                    </div>
+                </div>
+            </div>
+
+            <button id="start-game" class="btn-primary">
+                <span class="btn-text" data-i18n="start_game">Comenzar Juego</span>
+                <span class="btn-icon">→</span>
+            </button>
+
+            <div class="branding">© Salva-Games</div>
+        </div>
+
+        <!-- Pantalla de Sorteo -->
+        <div id="lottery-screen" class="screen">
+            <div class="lottery-content">
+                <h2 class="lottery-title" data-i18n="who_starts">¿Quién empieza?</h2>
+                <p class="lottery-subtitle" data-i18n="drawing">Sorteando...</p>
+
+                <div class="lottery-container">
+                    <div class="lottery-spinner" id="lottery-spinner">
+                        <span class="lottery-symbol lottery-x">✕</span>
+                        <span class="lottery-symbol lottery-o">⬤</span>
+                    </div>
+                </div>
+
+                <div class="lottery-result" id="lottery-result">
+                    <p class="result-text" id="lottery-result-text"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de Juego -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="score-panel player-score">
+                    <div class="score-icon">
+                        <span id="player-symbol-display">✕</span>
+                    </div>
+                    <div class="score-info">
+                        <span class="score-label" data-i18n="you">Tú</span>
+                        <span class="score-value" id="player-score">0</span>
+                    </div>
+                </div>
+
+                <div class="round-indicator">
+                    <div class="round-top">
+                        <span class="round-text" data-i18n="round">Ronda</span>
+                        <span class="round-number" id="current-round">1</span>
+                    </div>
+                    <div class="round-goal">
+                        <span data-i18n="goal">Meta</span>: <span id="total-rounds">3</span>
+                    </div>
+                </div>
+
+                <div class="score-panel machine-score">
+                    <div class="score-info">
+                        <span class="score-label" data-i18n="machine">Máquina</span>
+                        <span class="score-value" id="machine-score">0</span>
+                    </div>
+                    <div class="score-icon">
+                        <span id="machine-symbol-display">○</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-status">
+                <p id="status-text" class="status-text" data-i18n="your_turn">Tu turno</p>
+            </div>
+
+            <div class="board-container">
+                <div class="game-board" id="game-board">
+                    <div class="cell" data-cell data-index="0"></div>
+                    <div class="cell" data-cell data-index="1"></div>
+                    <div class="cell" data-cell data-index="2"></div>
+                    <div class="cell" data-cell data-index="3"></div>
+                    <div class="cell" data-cell data-index="4"></div>
+                    <div class="cell" data-cell data-index="5"></div>
+                    <div class="cell" data-cell data-index="6"></div>
+                    <div class="cell" data-cell data-index="7"></div>
+                    <div class="cell" data-cell data-index="8"></div>
+                </div>
+                <div class="winning-line" id="winning-line"></div>
+            </div>
+
+            <button id="back-to-menu" class="btn-secondary">
+                <span class="btn-icon">←</span>
+                <span class="btn-text" data-i18n="back_to_menu">Volver al menú</span>
+            </button>
+        </div>
+
+        <!-- Pantalla de Resultado Final -->
+        <div id="result-screen" class="screen">
+            <div class="result-content">
+                <div class="result-icon" id="result-icon">🏆</div>
+                <h2 class="result-title" id="result-title">¡Victoria!</h2>
+                <p class="result-subtitle" id="result-subtitle">Has ganado la partida</p>
+
+                <div class="final-scores">
+                    <div class="final-score-item">
+                        <span class="final-score-label" data-i18n="you">Tú</span>
+                        <span class="final-score-value" id="final-player-score">0</span>
+                    </div>
+                    <div class="final-score-divider">-</div>
+                    <div class="final-score-item">
+                        <span class="final-score-label" data-i18n="machine">Máquina</span>
+                        <span class="final-score-value" id="final-machine-score">0</span>
+                    </div>
+                </div>
+
+                <div class="result-buttons">
+                    <button id="play-again" class="btn-primary">
+                        <span class="btn-text" data-i18n="play_again">Jugar de nuevo</span>
+                    </button>
+                    <button id="change-settings" class="btn-secondary">
+                        <span class="btn-text" data-i18n="change_settings">Cambiar ajustes</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="game.js"></script>
+</body>
+
+</html>
